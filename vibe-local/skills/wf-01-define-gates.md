@@ -23,12 +23,18 @@
 ```
 # 検証ゲート: Issue #N [タイトル]
 ## Gate 1: [説明]
+**Gate ID:** `G-<issue>-<seq>`
 **元の基準:** "[Issueからコピー]"
 **検証タイプ:** テストベース | コマンドベース | 手動レビュー
 **詳細:** [検証ステップ・期待される結果]
 ## 複雑度評価: SIMPLE | COMPLEX
 **理由:** [理由] / **推定:** N タスク、N コミット
 ```
+
+**Gate ID形式:**
+- フォーマット: `G-<issue-identifier>-<sequence>`
+- 例: `G-issue-47-001`, `G-feature-auth-002`
+- シーケンス: 001から開始、3桁ゼロパディング
 
 ## ルール
 
@@ -39,7 +45,11 @@
 
 ## 完了後
 
+次のステップ:
+- Test-based Gateあり → `/wf-15-define-test-cases <issue>`
+- Test-based Gateなし → `/wf-02-task-plan <issue>`
+
 ```
 ゲート定義完了: <issue> / Nゲート / 複雑度:SIMPLE|COMPLEX / 推定Nタスク
-次: /wf-02-task-plan <issue>
+次: [上記のステップに従う]
 ```

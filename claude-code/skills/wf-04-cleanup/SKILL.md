@@ -300,6 +300,24 @@ Post-merge actions (if any):
 - Create ADR for: [any noted architectural decisions]
 ```
 
+## Gate ID Consistency Check
+
+Verify the following consistency:
+
+1. **Gate IDs in gates.md:**
+   - Format: `G-<issue>-<seq>`
+   - Sequence number continuity (gaps are acceptable)
+   - No duplicates
+
+2. **Consistency with test-cases.md:**
+   - Test IDs exist for Test-based Gates
+   - Test ID format: `TC-<issue>-<gate-seq>-<test-seq>`
+   - "Test Cases" column in gates.md matches test-cases.md content
+
+3. **Traceability:**
+   - Issue → Gate ID → Test ID → Task → Commit traceability
+   - Tasks exist for each Gate ID
+
 ## Rules
 
 - ALWAYS complete all three phases in order

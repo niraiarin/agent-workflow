@@ -28,6 +28,7 @@ cp -r commands .bob/commands/
 ### Core Workflow
 
 - `/wf-01-define-gates` - Define verification gates (mandatory before task planning)
+- `/wf-15-define-test-cases` - Define concrete test cases for Test-based Gates (conditional)
 - `/wf-02-task-plan` - Plan tasks based on gates and complexity
 - `/wf-03-implement` - Execute single task with verification
 - `/wf-04-cleanup` - Three-phase audit before PR

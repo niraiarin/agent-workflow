@@ -158,6 +158,7 @@ Wait for human approval or requested changes before creating file.
 # Verification Gates for Issue #N: [Issue Title]
 
 ## Gate 1: [Criterion description]
+**Gate ID:** `G-<issue>-<seq>`
 **From criteria:** "[Copy from issue]"
 **Verification type:** Test-based | Command-based | Manual review
 **Strategy:** [High-level approach]
@@ -167,6 +168,7 @@ Wait for human approval or requested changes before creating file.
 - [Expected outcome]
 
 ## Gate 2: [Criterion description]
+**Gate ID:** `G-<issue>-<seq>`
 **From criteria:** "[Copy from issue]"
 **Verification type:** Test-based
 **Strategy:** [Approach]
@@ -174,12 +176,18 @@ Wait for human approval or requested changes before creating file.
 - [Details]
 
 ## Gate 3: [Criterion description]
+**Gate ID:** `G-<issue>-<seq>`
 **From criteria:** "[Copy from issue]"
 **Verification type:** Command-based
 **Strategy:** [Approach]
 **Specifics:**
 - Command: `[exact command]`
 - Expected: [output or exit code]
+
+**Gate ID Format:**
+- Format: `G-<issue-identifier>-<sequence>`
+- Example: `G-issue-47-001`, `G-feature-auth-002`
+- Sequence: 001から開始、3桁ゼロパディング
 
 ---
 
@@ -472,7 +480,8 @@ Splitting recommendation provided - review before proceeding.
 
 If proceeding with current scope:
 - Review gates.md
-- If approved: `/wf-02-task-plan <issue-identifier>`
+- Test-based Gateあり → `/wf-15-define-test-cases <issue-identifier>`
+- Test-based Gateなし → `/wf-02-task-plan <issue-identifier>`
 
 If splitting recommended and accepted:
 - Return to `/wf-issue-plan` to create sub-issues

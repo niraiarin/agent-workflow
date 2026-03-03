@@ -5,8 +5,9 @@
 ## 前提条件（必須）
 
 1. `.agents/tasks/<issue>/gates.md` 存在確認 → なければ STOP「先に `/wf-01-define-gates <issue>` を実行」
-2. `git branch --show-current` → main/masterなら STOP「featureブランチを作成」
-3. 未完了タスクがある → STOP「先に `/wf-03-implement <issue> task-N` を完了」
+2. Test-based Gateがある場合: `.agents/tasks/<issue>/test-cases.md` 存在確認 → なければ STOP「先に `/wf-15-define-test-cases <issue>` を実行」
+3. `git branch --show-current` → main/masterなら STOP「featureブランチを作成」
+4. 未完了タスクがある → STOP「先に `/wf-03-implement <issue> task-N` を完了」
 
 ## 判断ロジック
 
@@ -35,6 +36,7 @@
 ## ルール
 
 - gates.mdを先に読む / 複雑度評価を尊重 / 検証を正確にコピー
+- test-cases.mdが存在する場合、テスト実装ステップを参照
 - 前タスクのImplementation Notesを活用 / 実装コードを書かない
 
 ## 完了後

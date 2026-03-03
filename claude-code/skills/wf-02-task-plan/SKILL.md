@@ -14,6 +14,11 @@ Before doing anything else:
    - Complexity assessment (SIMPLE or COMPLEX)
    - Task estimate
 
+**Test Cases Check:**
+1. Check if Test-based Gates exist in gates.md
+2. If Test-based Gates exist: Verify `.agents/tasks/<issue-identifier>/test-cases.md` exists
+3. If missing: STOP and instruct: "Run `/wf-15-define-test-cases <issue-identifier>` first"
+
 **Branch Check:**
 1. Run: `git branch --show-current`
 2. If on main/master: STOP and instruct human to create feature branch
