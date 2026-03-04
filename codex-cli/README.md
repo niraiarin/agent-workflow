@@ -42,4 +42,4 @@ cp -r skills/* ~/.codex/skills/
 
 Start a new session for each task to prevent context pollution. The workflow enforces small, reviewable commits and explicit verification gates.
 
-See [docs/agentic-workflow-guide.md](../docs/agentic-workflow-guide.md) for complete workflow documentation.
+See [docs/agentic-workflow-guide.md](docs/agentic-workflow-guide.md) for complete workflow documentation.
