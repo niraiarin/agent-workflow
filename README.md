@@ -183,6 +183,9 @@ Edit `AGENTS.md` or `CLAUDE.md` to add project-specific requirements (keep under
 
 ### 主要ドキュメント / Main Documentation
 
+- **[manifesto.md](docs/explanation/manifesto.md)**: プロジェクト至上命題 — AIによるAI自身の永続的な自己最適化
+  - Project manifesto — Perpetual self-optimization by AI, for AI
+
 - **[agentic-workflow-guide.md](docs/agentic-workflow-guide.md)**: 完全なワークフローガイド（英語）
   - Complete workflow guide (English)
   - Core philosophy and design principles

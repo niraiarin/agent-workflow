@@ -4,6 +4,8 @@
 
 ## Core Philosophy
 
+> このセクションは運用レベルの指針である。使命レベルのビジョンは [manifesto.md](explanation/manifesto.md) を参照。
+
 Working with AI coding agents is like managing a team of highly capable but amnesiac junior developers. They can write excellent code, but they:
 
 - Forget everything between sessions
