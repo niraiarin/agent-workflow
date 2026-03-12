@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Build all platforms
+        run: ./build.sh
+
+      - name: Package tarballs
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          mkdir -p dist
+          for platform in bob claude-code codex-cli gemini-cli vibe-local; do
+            if [ -d "build/$platform" ]; then
+              tar czf "dist/agent-workflow-${platform}-${VERSION}.tar.gz" \
+                -C build "$platform"
+            fi
+          done
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          gh release create "$VERSION" \
+            --title "$VERSION" \
+            --generate-notes \
+            dist/agent-workflow-*-${VERSION}.tar.gz
