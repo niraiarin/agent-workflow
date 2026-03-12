@@ -37,7 +37,7 @@ curl -sL https://raw.githubusercontent.com/niraiarin/agent-workflow/main/install
 **Option B: Git submodule (vendored)**
 ```bash
 git submodule add https://github.com/niraiarin/agent-workflow.git
-./agent-workflow/install.sh --platform claude-code
+./agent-workflow/install-submodule.sh --platform claude-code
 ```
 
 Replace `claude-code` with your agent: `bob`, `codex-cli`, `gemini-cli`, or `vibe-local`.
