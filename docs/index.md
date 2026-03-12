@@ -11,6 +11,4 @@
 ## JP
 - [ja/](ja/)
 
-[principles.md](../explanation/principles.md) for core.
-
-All files &lt;500L, dupe-free.
+[principles.md](explanation/principles.md) for core.

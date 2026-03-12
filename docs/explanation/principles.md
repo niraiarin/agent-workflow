@@ -17,5 +17,3 @@ Fresh sessions per task: 30s setup vs polluted context cost.
 50% window rule; structure enforces hygiene.
 
 See [how-to/phases.md#phase-1](#phase-1) for gates.
-
-(298 lines)

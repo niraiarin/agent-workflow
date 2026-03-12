@@ -26,5 +26,3 @@ Agent codes, verifies, commits/PR.
 Audit/fix/validate → PR.
 
 See [reference/commands.md] for details.
-
-(412 lines)

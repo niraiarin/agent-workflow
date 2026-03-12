@@ -36,6 +36,7 @@ Search project knowledge for:
 
 | Phase | Command | Purpose |
 |-------|---------|---------|
+| Intake | `/wf-00-intake` | Receive request, clarify intent, produce well-formed issue |
 | Define Gates | `/wf-01-define-gates` | Define verification strategy for each criterion (MANDATORY) |
 | Task Plan | `/wf-02-task-plan` | Plan tasks based on gates and complexity |
 | Implement | `/wf-03-implement` | Execute single task, verify gate |
