@@ -4,13 +4,18 @@ description: 03 Implement - Execute a specific task following the plan
 
 > **このファイルの役割（Claude Code 用）**: このスキルは vibe-local（実装層）が実行するワークフローの仕様である。Claude Code（検証層）はこのスキルを直接実行しない。Claude Code は vibe-local が作成した PR を GitHub Actions でレビューする役割のみを担う。このファイルは「vibe-local がどう動くか」を理解するための参照資料として使用する。
 
+## Workflow Position
+
+- **Upstream:** `/wf-02-task-plan` (produces the task files this phase executes)
+- **Downstream:** `/wf-04-cleanup` (after all tasks complete) or next `/wf-03-implement` (next task)
+
 ## PRECONDITIONS (MANDATORY)
 
 Before doing anything else:
 
 **Task File Check:**
 1. Verify task file exists: `.agents/tasks/<issue-identifier>/<task-identifier>.md`
-2. If missing: STOP and report error
+2. If missing: STOP and suggest running `/wf-02-task-plan` first
 3. Read entire task file
 
 **Branch Check:**

@@ -2,6 +2,11 @@
 description: 04 Cleanup - Three-phase review before PR (audit, fix, validate gates)
 ---
 
+## Workflow Position
+
+- **Upstream:** `/wf-03-implement` (all tasks must be complete before cleanup)
+- **Downstream:** `/wf-self-improve` (retrospective after merge)
+
 ## PRECONDITIONS (MANDATORY)
 
 Before doing anything else:

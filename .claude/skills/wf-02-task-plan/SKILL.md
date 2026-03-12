@@ -2,6 +2,11 @@
 description: Task Plan - Plan tasks based on gates (auto-detects SIMPLE vs COMPLEX)
 ---
 
+## Workflow Position
+
+- **Upstream:** `/wf-01-define-gates` (produces gates.md that this phase reads)
+- **Downstream:** `/wf-03-implement` (executes the task files this phase creates)
+
 ## PRECONDITIONS (MANDATORY)
 
 Before doing anything else:

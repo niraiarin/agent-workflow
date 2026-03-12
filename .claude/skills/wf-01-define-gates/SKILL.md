@@ -2,6 +2,11 @@
 description: "01: Define verification gates for an issue (MANDATORY — start here)"
 ---
 
+## Workflow Position
+
+- **Upstream:** `/wf-00-intake` (produces the issue file this phase reads)
+- **Downstream:** `/wf-02-task-plan` (consumes gates.md to plan tasks)
+
 ## PRECONDITIONS (MANDATORY)
 
 Before doing anything else:
@@ -10,7 +15,7 @@ Before doing anything else:
 1. Verify issue exists at specified location:
    - GitHub issue (if MCP available)
    - Markdown file in `.agents/issues/<issue-identifier>.md`
-2. If issue doesn't exist: STOP and report error
+2. If issue doesn't exist: STOP and suggest running `/wf-00-intake` first
 
 **Issue Quality Check:**
 1. Verify issue has success criteria in checkbox format (`- [ ] criterion`)
