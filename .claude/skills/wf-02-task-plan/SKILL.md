@@ -528,6 +528,16 @@ This ensures we start from a clean state.
 - Do NOT write implementation code in task planning
 - PROPOSE scope changes, do NOT apply without approval
 
+## Scope Change Protocol
+
+When the human decides to change scope mid-issue (defer tasks, add new gates, pivot direction):
+
+1. **Record the change** in gates.md — mark deferred gates as `DEFERRED: [reason]`
+2. **Update affected task files** — mark deferred tasks with status and reason
+3. **Note what triggered the change** — this context helps future retrospectives
+
+Without this record, wf-04-cleanup and wf-self-improve cannot distinguish "skipped intentionally" from "forgotten."
+
 ## When Complete
 
 After creating task file(s), report:
