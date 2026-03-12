@@ -1,0 +1,6 @@
+# Build artifacts
+build/
+
+# Development workspaces (eval iterations, fixtures)
+*-workspace/
+tmp/

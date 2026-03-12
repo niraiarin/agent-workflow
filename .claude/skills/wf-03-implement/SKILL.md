@@ -1,0 +1,411 @@
+---
+description: 03 Implement - Execute a specific task following the plan
+---
+
+> **このファイルの役割（Claude Code 用）**: このスキルは vibe-local（実装層）が実行するワークフローの仕様である。Claude Code（検証層）はこのスキルを直接実行しない。Claude Code は vibe-local が作成した PR を GitHub Actions でレビューする役割のみを担う。このファイルは「vibe-local がどう動くか」を理解するための参照資料として使用する。
+
+## Workflow Position
+
+- **Upstream:** `/wf-02-task-plan` (produces the task files this phase executes)
+- **Downstream:** `/wf-04-cleanup` (after all tasks complete) or next `/wf-03-implement` (next task)
+
+## PRECONDITIONS (MANDATORY)
+
+Before doing anything else:
+
+**Task File Check:**
+1. Verify task file exists: `.agents/tasks/<issue-identifier>/<task-identifier>.md`
+2. If missing: STOP and suggest running `/wf-02-task-plan` first
+3. Read entire task file
+
+**Branch Check:**
+1. Run: `git branch --show-current`
+2. Verify branch matches the branch specified in task file
+3. If mismatch: STOP and instruct human to switch branches
+
+**Completion Check:**
+1. Check task's Completion Gate section
+2. If ALL checkboxes already checked (`- [x]`): STOP "Task already complete"
+3. Otherwise: proceed with implementation
+
+You are an implementation specialist. Your job is to execute a task following its implementation plan, verify completion gates, and record learnings.
+
+## Expected Input
+
+```
+Implement task for Issue: <issue-identifier> <task-identifier>
+```
+
+Examples:
+- `issue-47-user-email-validation task-1`
+- `#47 task-1`
+
+## Process
+
+### Step 1: Read and Understand Task
+
+1. Read the entire task file
+2. Understand:
+   - Which gates this task completes
+   - Implementation steps to follow
+   - Completion gate requirements
+   - Expected commit size
+
+### Step 2: Execute Implementation Steps
+
+Follow the implementation steps IN ORDER:
+1. Complete one step
+2. Check it off: change `- [ ]` to `- [x]`
+3. Move to next step
+4. If step is unclear: STOP and ask human for clarification
+5. If step reveals issues: STOP, document in Implementation Notes, ask human
+
+**DO NOT:**
+- Skip steps
+- Combine steps
+- Add unrequested features
+- Refactor unrelated code
+- Change scope without approval
+
+### Step 3: Verify Completion Gates
+
+After all implementation steps complete:
+
+1. Read Completion Gate section from task file
+2. Execute EACH verification specified
+3. Record results
+4. Check off gates that pass: `- [ ]` to `- [x]`
+5. If ANY gate fails: STOP, report failure, ask for guidance
+
+**Gate verification types:**
+
+**Test-based gates:**
+```bash
+# Run specified tests
+npm test -- user.test.ts
+
+# Verify results match expected
+# Check off if pass, report if fail
+```
+
+**Command-based gates:**
+```bash
+# Run specified command
+terraform plan -out=plan.tfplan
+
+# Verify output matches expected
+# Check off if correct, report if not
+```
+
+**Manual review gates:**
+```
+# Present checklist to human
+# Ask human to verify each item
+# Check off based on human confirmation
+```
+
+### Step 4: Record Implementation Notes
+
+Fill in the Implementation Notes section with:
+
+**Direction changes:**
+- Any deviations from the plan
+- Why the change was necessary
+- Alternative approaches considered
+
+**Discoveries:**
+- Important findings during implementation
+- Gotchas or edge cases found
+- Patterns or issues in existing code
+- Relevant for understanding the change
+
+**For next task:**
+- Information that will help plan subsequent work
+- Dependencies revealed
+- Suggestions for next task approach
+- Anything that affects remaining gates
+
+**Example:**
+```markdown
+## Implementation Notes
+
+**Direction changes:**
+Used `validator` library instead of regex - found existing pattern in codebase at auth.ts line 45
+
+**Discoveries:**
+Existing user model already has email field validation for format, but not for required check
+Found 3 tests in user.test.ts that we could extend instead of creating new file
+
+**For next task:**
+Gate 3 (regressions) will need to verify password validation still works since we touched user model
+```
+
+### Step 5: Verify Commit Size
+
+Check that changes fit "one task, one commit" guideline:
+
+```bash
+git diff --stat
+```
+
+**Expected:**
+- 50-200 lines changed
+- 1-5 files touched
+- Focused on assigned gates
+
+**If exceeds limits:**
+1. Review what was changed
+2. Check if any changes are out of scope
+3. If in scope but too large: STOP, recommend splitting task
+4. Report to human for decision
+
+### Step 6: Commit, Create PR, and Present Results
+
+After all gates pass, Paid AI (Claude Code/Bob) creates PR after vibe-local commits:
+
+```bash
+# Commit with the suggested message
+git add -A
+git commit -m "[commit message]"
+
+# Push and create PR
+git push origin <branch>
+# Create PR via GitHub CLI or API
+gh pr create --title "[PR title]" --body "[PR body following .github/pull_request_template.md]"
+```
+
+### Step 6.5: Local Review (After Each Commit)
+
+After committing, paid AI (local execution) automatically reviews:
+1. **Code quality**: bugs, security, performance, readability
+2. **Gates achievement**: confirmation of task completion criteria
+3. **Zero Trust principle**: compliance with security and validation rules
+4. **Contract consistency**: alignment with project methodology
+
+Review results are saved to: `.agents/reviews/{commit-hash}.json`
+
+**If fixes needed**:
+- vibe-local makes corrections
+- Commit fixes (maximum 3 iterations)
+- Repeat review
+
+**If no fixes needed**:
+- Proceed to next implementation step
+
+### Step 7: Present Results
+
+Output a clear summary:
+
+```
+Task <task-identifier> implementation complete
+
+Changes:
+  - Modified: src/models/user.ts (45 lines)
+  - Modified: tests/models/user.test.ts (67 lines)
+
+Implementation Steps: [8/8] complete
+Completion Gates: [3/3] verified
+
+Gate verification results:
+  [x] Gate 1: Email validation tests pass (12 tests, all pass)
+  [x] Gate 2: Error message tests pass (3 tests, all pass)
+  [x] No regressions: Full test suite passes (142 tests)
+
+Implementation Notes: Added (see task file)
+
+Committed and PR created:
+  Commit: feat(user): add email validation
+  PR: #<PR番号> - <PR title>
+
+Human next steps:
+1. Review PR: <PR URL>
+2. Merge or Close (human has final Merge authority)
+```
+
+## Rules
+
+- Follow implementation steps in order
+- Check off steps as completed
+- Verify ALL completion gates
+- Record implementation notes
+- **Commit and create PR autonomously** after all gates pass (vibe-local's responsibility)
+- DO NOT merge the PR (human has final Merge authority)
+- DO NOT modify task scope without approval
+- DO NOT modify verification gates to make them pass
+- If gate fails, fix implementation or ask for guidance
+- If stuck after 3 attempts, use `/wf-summarise` and start fresh session
+
+## When Stuck
+
+If you encounter 3 failures on the same problem:
+
+1. Use `/summarise <issue> <task>` to checkpoint
+2. Human starts fresh session
+3. Fresh session tries again
+4. If STILL fails: confirmed AI blind spot, human takes manual control
+
+## Edge Cases
+
+**If implementation steps reveal scope issues:**
+```
+STOP after current step
+Document in Implementation Notes:
+"Discovered [issue] during implementation. 
+Suggests scope change: [proposed change].
+Recommend updating issue and re-planning."
+
+Ask human for decision before proceeding.
+```
+
+**If implementation reveals architectural decision needed:**
+```
+STOP - This requires an architectural decision.
+
+Discovered: [description of decision point]
+Examples:
+- Multiple valid approaches to [problem]
+- New pattern being introduced that deviates from codebase
+- Technology choice with long-term implications
+
+Recommend: Run `/adr <decision-title>` before continuing.
+
+This will:
+1. Research and document options
+2. Get human decision with rationale
+3. Create audit trail for future reference
+
+Continue implementation after ADR is accepted.
+```
+
+**If completion gate fails:**
+```
+Implementation steps complete but Gate X fails.
+
+Gate X verification:
+  Command: npm test -- user.test.ts
+  Expected: All tests pass
+  Actual: 2 tests failing
+    - test/user.test.ts:45 - validation rejects null
+    - test/user.test.ts:67 - error message format
+
+Options:
+1. Fix implementation to make gates pass
+2. Investigate why gates are failing
+3. Discuss if gate definition needs refinement
+
+Recommend option [1/2/3] with reasoning.
+```
+
+**If changes exceed commit size:**
+```
+Implementation complete but changes exceed one-commit guideline:
+
+Current changes:
+  - 342 lines across 8 files
+
+This suggests task should be split. Options:
+1. Commit partial work (not recommended - incomplete gates)
+2. Continue and commit as-is (human can review oversized commit)
+3. Revert and split task into task-Xa, task-Xb
+
+Recommend discussing with human before proceeding.
+```
+
+## Example Implementation
+
+```bash
+Input: Implement task for issue-47-user-email-validation task-1
+
+[Read task-1.md]
+Task 1: Implement Email Validation
+Completes: Gates 1, 2
+Branch: feature/user-email-validation
+
+[Execute implementation steps]
+[x] Add email validation logic to src/models/user.ts
+[x] Write test cases for valid email formats in tests/models/user.test.ts  
+[x] Write test cases for invalid email formats
+[x] Write test cases for null/empty values
+[x] Add error message tests
+[x] Verify all new tests fail initially (red phase) - FAILED, tests pass?!
+  
+STOP: Tests should fail initially but 5 tests are passing.
+
+Investigation: Found existing email validation at user.ts line 89.
+This task overlaps with existing functionality.
+
+Options:
+1. Extend existing validation with additional edge cases
+2. Refactor to consolidate validation logic
+3. Update issue scope to "enhance" rather than "add"
+
+Recommend option 1 (extend existing) - aligns with AGENTS.md test hygiene.
+Proceed? [Human confirms]
+
+[Continue with adjusted approach]
+[x] Extend existing validation with additional edge cases
+[x] Extend tests/models/user.test.ts with new edge cases
+[x] Verify new tests fail initially - PASS (3 new tests, all red)
+[x] Implement enhancements to make tests pass
+[x] Run full test suite
+
+[Verify completion gates]
+[x] Gate 1: Email validation tests pass
+    Command: npm test -- user.test.ts
+    Result: 15 tests pass (12 existing + 3 new)
+    
+[x] Gate 2: Error message tests pass
+    Result: Error format verified in 3 new tests
+    
+[x] No regressions: npm test passes
+    Result: 142 tests, all pass
+    
+[x] Changes fit in single commit
+    Result: 78 lines across 2 files
+
+[Record implementation notes]
+Added to task-1.md:
+
+**Direction changes:**
+Found existing email validation at user.ts:89. Extended it instead of creating new validation logic. This is better - consolidates validation in one place and follows AGENTS.md test hygiene.
+
+**Discoveries:**
+- User model already validated email format with basic regex
+- Found we could extend tests/models/user.test.ts (12 existing tests)
+- New edge cases: leading/trailing whitespace, international domains, plus addressing
+- Existing error format already matches our Gate 2 requirements
+
+**For next task:**
+Gate 3 verification should be straightforward - integration tests should pass since we only enhanced existing validation, didn't change interfaces.
+
+[Present results]
+---
+Task 1 implementation complete
+
+Changes:
+  - Modified: src/models/user.ts (45 lines) - enhanced validation
+  - Modified: tests/models/user.test.ts (33 lines) - 3 new test cases
+
+Implementation Steps: [8/8] complete
+Completion Gates: [4/4] verified
+
+Gate verification results:
+  [x] Gate 1: Email validation tests pass (15 tests)
+  [x] Gate 2: Error message tests pass (verified in new tests)
+  [x] No regressions: Full test suite passes (142 tests)
+  [x] Commit size appropriate (78 lines, 2 files)
+
+Implementation Notes: Added
+Key finding: Extended existing validation instead of creating new - better approach
+
+Committed and PR created:
+  Commit: feat(user): enhance email validation with additional edge cases
+  PR: #<PR番号> - feat(user): enhance email validation with additional edge cases
+
+Human next steps:
+1. Review PR: <PR URL>
+2. Merge or Close (human has final Merge authority)
+---
+```
+
+$ARGUMENTS

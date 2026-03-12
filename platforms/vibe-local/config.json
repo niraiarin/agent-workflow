@@ -1,0 +1,8 @@
+{
+  "format": "override",
+  "skills_dir": "skills",
+  "file_extension": ".md",
+  "override_source": "platforms/vibe-local/skills",
+  "exclude_skills": [],
+  "static_files": ["README.md"]
+}

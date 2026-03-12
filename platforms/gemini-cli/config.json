@@ -1,0 +1,9 @@
+{
+  "format": "toml",
+  "skills_dir": "commands",
+  "file_extension": ".toml",
+  "subagent_syntax": "none",
+  "strip_subagent_blocks": true,
+  "exclude_skills": ["wf-15-define-test-cases"],
+  "static_files": ["GEMINI.md", "README.md"]
+}

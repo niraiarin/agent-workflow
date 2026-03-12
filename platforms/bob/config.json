@@ -1,0 +1,12 @@
+{
+  "format": "flat-md",
+  "skills_dir": "commands",
+  "file_extension": ".md",
+  "frontmatter_extras": {
+    "argument-hint": "<issue-identifier>"
+  },
+  "subagent_syntax": "xml",
+  "multi_turn_warning": true,
+  "exclude_skills": [],
+  "static_files": ["AGENTS.md", "README.md"]
+}

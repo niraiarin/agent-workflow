@@ -1,0 +1,8 @@
+{
+  "format": "subdir-skill",
+  "skills_dir": "skills",
+  "file_extension": "SKILL.md",
+  "subagent_syntax": "claude-code",
+  "exclude_skills": [],
+  "static_files": ["CLAUDE.md", "README.md"]
+}
