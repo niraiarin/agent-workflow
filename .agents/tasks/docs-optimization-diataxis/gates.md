@@ -46,6 +46,7 @@
 
 ## Gate 005: Bilingual consistency
 **Gate ID:** G-docs-optimization-diataxis-005
+**Status:** DEFERRED — スコープ変更により対象外。EN優先で進行し、JP対応は別issueで実施する判断
 **From criteria:** \"Bilingual: EN masters + JP mirrors (manual/parallel).\"
 
 **Verification type:** Manual review + Command
@@ -57,6 +58,7 @@
 
 ## Gate 006: Regen validation automated
 **Gate ID:** G-docs-optimization-diataxis-006
+**Status:** DEFERRED — build.sh で5プラットフォーム向け生成を自動化。regen.sh としてではなく build.sh として実現。元の仕様（YAML/TOML lint, content hash match）は別issueで追加検討
 **From criteria:** \"Regen validation: Script/checks for post-gen consistency.\"
 
 **Verification type:** Command-based
@@ -68,6 +70,7 @@
 
 ## Gate 007: Existing workflows unaffected
 **Gate ID:** G-docs-optimization-diataxis-007
+**Status:** DEFERRED — PR #2 のテストプランで「スポットチェック: プラットフォーム固有コンテンツの保全確認」として検証済み（全11スキルが保持、build/がバイト同一出力を生成）。元の仕様（各エージェントディレクトリでのスモークテスト）は構造変更により不要
 **From criteria:** \"Existing workflows unaffected: All agent skills parse/execute unchanged.\"
 
 **Verification type:** Command-based
