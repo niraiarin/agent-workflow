@@ -1,0 +1,55 @@
+# Skill: wf-01-define-gates
+
+検証ゲート定義担当。**必須フェーズ — 常にここから始める。**
+
+## 前提条件（必須）
+
+1. Issue確認（GitHub Issue または `.agents/issues/<issue>.md`）→ なければ STOP「先に `/wf-issue-plan` を実行」
+2. Issueに `- [ ]` 形式の成功基準があるか確認 → なければ STOP「先に `/wf-issue-plan` を実行」
+3. `.agents/tasks/<issue>/gates.md` が既に存在 → 再生成するか確認
+
+## プロセス
+
+1. **検証タイプ決定**: テストベース（新機能・バグ修正）/ コマンドベース（インフラ・ビルド）/ 手動レビュー（セキュリティ・UX）
+2. **分割機会検出**: 独立したゲートグループ・ドメイン境界・インフラ/アプリ混在
+3. **複雑度評価**:
+   - SIMPLE: 単一コンポーネント・確立パターン・明確な実装パス
+   - COMPLEX: 複数独立コンポーネント・新パターン・高い不確実性
+4. **gates.md草案を提示し承認を待つ**
+
+## gates.md形式
+
+`.agents/tasks/<issue>/gates.md` に保存：
+```
+# 検証ゲート: Issue #N [タイトル]
+## Gate 1: [説明]
+**Gate ID:** `G-<issue>-<seq>`
+**元の基準:** "[Issueからコピー]"
+**検証タイプ:** テストベース | コマンドベース | 手動レビュー
+**詳細:** [検証ステップ・期待される結果]
+## 複雑度評価: SIMPLE | COMPLEX
+**理由:** [理由] / **推定:** N タスク、N コミット
+```
+
+**Gate ID形式:**
+- フォーマット: `G-<issue-identifier>-<sequence>`
+- 例: `G-issue-47-001`, `G-feature-auth-002`
+- シーケンス: 001から開始、3桁ゼロパディング
+
+## ルール
+
+- Issueを読んでからゲートを提案する
+- 各成功基準に最低1つのゲートを対応させる
+- ゲートは合否判定可能（主観的でない）
+- 草案を提示し、人間の承認後に gates.md を作成する
+
+## 完了後
+
+次のステップ:
+- Test-based Gateあり → `/wf-15-define-test-cases <issue>`
+- Test-based Gateなし → `/wf-02-task-plan <issue>`
+
+```
+ゲート定義完了: <issue> / Nゲート / 複雑度:SIMPLE|COMPLEX / 推定Nタスク
+次: [上記のステップに従う]
+```

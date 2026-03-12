@@ -1,0 +1,9 @@
+{
+  "format": "subdir-skill",
+  "skills_dir": "skills",
+  "file_extension": "SKILL.md",
+  "subagent_syntax": "none",
+  "strip_subagent_blocks": true,
+  "exclude_skills": [],
+  "static_files": ["AGENTS.md", "README.md"]
+}
