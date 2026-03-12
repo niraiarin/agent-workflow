@@ -2,6 +2,11 @@
 description: ADR - Architectural Decision Record
 ---
 
+## Workflow Position
+
+- **Type:** On-demand utility (invocable from any phase)
+- **Common triggers:** `/wf-03-implement` (new pattern discovered), `/wf-04-cleanup` (architectural decision noted)
+
 ## Purpose
 
 Research, evaluate, and document architectural decisions with explicit human approval. Prevents decision delegation by forcing structured consideration of alternatives before committing to an approach.

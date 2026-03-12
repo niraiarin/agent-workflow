@@ -2,6 +2,11 @@
 description: Summarise - Checkpoint any session for handoff when context degrades or failures accumulate
 ---
 
+## Workflow Position
+
+- **Type:** On-demand utility (invocable from any phase when context degrades)
+- **Returns to:** The phase that was active before summarisation
+
 You are a session handoff specialist. Your job is to capture the current state so a FRESH session can continue effectively. You adapt to whatever phase or context you are summarising.
 
 ## When to Use This Phase

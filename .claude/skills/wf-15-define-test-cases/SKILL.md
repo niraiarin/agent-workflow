@@ -2,6 +2,11 @@
 
 Description: 15: Define concrete test cases for Test-based Gates (CONDITIONAL)
 
+## Workflow Position
+
+- **Upstream:** `/wf-01-define-gates` (reads gates.md to identify Test-based Gates)
+- **Downstream:** `/wf-02-task-plan` (test-cases.md informs task planning)
+
 ## CRITICAL: THIS IS A CONDITIONAL PHASE
 
 **Execute ONLY when Test-based Gates exist in gates.md**
