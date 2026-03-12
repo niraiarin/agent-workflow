@@ -26,30 +26,27 @@ Each agent directory contains setup instructions and usage guidelines.
 
 ## Quick Start
 
-### 1. Set up agent-specific files
+### 1. Install
 
-**Bob:**
+**Option A: One-line install (recommended)**
 ```bash
-cp -r agent-workflow/bob/commands .bob/commands/
-cp agent-workflow/bob/AGENTS.md ./AGENTS.md
+curl -sL https://raw.githubusercontent.com/niraiarin/agent-workflow/main/install.sh \
+  | sh -s -- --platform claude-code
 ```
 
-**Claude Code:**
+**Option B: Git submodule (vendored)**
 ```bash
-cp -r agent-workflow/claude-code/skills .claude/skills/
-cp agent-workflow/claude-code/CLAUDE.md ./CLAUDE.md
+git submodule add https://github.com/niraiarin/agent-workflow.git
+./agent-workflow/install.sh --platform claude-code
 ```
 
-**vibe-local:**
-```bash
-mkdir -p .vibe-local/skills
-cp agent-workflow/vibe-local/skills/*.md .vibe-local/skills/
-cp agent-workflow/vibe-local/CLAUDE.md ./CLAUDE.md
-```
+Replace `claude-code` with your agent: `bob`, `codex-cli`, `gemini-cli`, or `vibe-local`.
+
+See `install.sh --help` for all options (`--version`, `--prefix`).
 
 ### 2. Customize project-specific rules
 
-Edit `AGENTS.md` or `CLAUDE.md` to add project-specific requirements (keep under 200 lines).
+Edit `CLAUDE.md` (or `AGENTS.md` / `GEMINI.md` depending on platform) to add project-specific requirements (keep under 200 lines).
 
 ### 3. Run the workflow
 
