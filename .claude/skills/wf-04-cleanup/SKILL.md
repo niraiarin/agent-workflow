@@ -262,6 +262,29 @@ Do not proceed to PR until all gates pass.
 
 **When all gates pass:**
 
+### Test Plan Execution (MANDATORY before PR)
+
+After all gates pass, execute EVERY item in the PR's test plan and record results:
+
+1. Draft the PR body including a test plan section
+2. Execute each test plan item **before** creating the PR
+3. Record pass/fail results for each item
+4. If ANY item fails: fix the issue and re-verify
+5. Post results as part of the PR body or as a PR comment immediately after creation
+
+**This is non-negotiable.** A PR with an unverified test plan is incomplete. The purpose of a test plan is verification, not documentation.
+
+```markdown
+## Test Plan Results
+
+| # | Item | Result |
+|---|------|--------|
+| 1 | [test description] | ✅ Pass / ❌ Fail |
+| 2 | [test description] | ✅ Pass / ❌ Fail |
+```
+
+### Commit and Create PR
+
 Paid AI (Claude Code/Bob) commits cleanup changes and creates PR:
 
 ```bash
@@ -271,7 +294,7 @@ git commit -m "[use message from task-cleanup.md]"
 
 # Push and create PR
 git push origin <branch>
-gh pr create --title "[PR title]" --body "[PR body following .github/pull_request_template.md, include gate verification results]"
+gh pr create --title "[PR title]" --body "[PR body following .github/pull_request_template.md, include gate verification results AND test plan results]"
 ```
 
 Present final summary:
