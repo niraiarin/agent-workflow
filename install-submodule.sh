@@ -23,10 +23,12 @@ Options:
   --version <tag>     Version string to record (default: git tag or "dev")
   --prefix <path>     Installation target directory (default: parent of this submodule)
   --skip-build        Skip build.sh and use existing build/ output
+  --skills-only       Only install skills directory, skip root config file (CLAUDE.md etc.)
   -h, --help          Show this help
 
 Examples:
   ./agent-workflow/install-submodule.sh --platform claude-code
+  ./agent-workflow/install-submodule.sh --platform claude-code --skills-only
   ./agent-workflow/install-submodule.sh --platform bob --prefix /path/to/project
 USAGE
   exit 1
@@ -40,6 +42,7 @@ PLATFORM=""
 VERSION=""
 PREFIX=""
 SKIP_BUILD=false
+SKILLS_ONLY=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -47,6 +50,7 @@ while [[ $# -gt 0 ]]; do
     --version)      VERSION="$2"; shift 2 ;;
     --prefix)       PREFIX="$2"; shift 2 ;;
     --skip-build)   SKIP_BUILD=true; shift ;;
+    --skills-only)  SKILLS_ONLY=true; shift ;;
     -h|--help)      usage ;;
     *)              die "Unknown option: $1" ;;
   esac
@@ -82,4 +86,5 @@ echo "=== Installing to $PREFIX ==="
 echo ""
 INSTALL_ARGS=(--platform "$PLATFORM" --prefix "$PREFIX")
 [[ -n "$VERSION" ]] && INSTALL_ARGS+=(--version "$VERSION")
+[[ "$SKILLS_ONLY" == true ]] && INSTALL_ARGS+=(--skills-only)
 bash "$SCRIPT_DIR/install.sh" "${INSTALL_ARGS[@]}"

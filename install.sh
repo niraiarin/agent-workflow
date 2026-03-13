@@ -11,18 +11,21 @@ set -euo pipefail
 VERSION=""
 PLATFORM=""
 PREFIX="."
+SKILLS_ONLY=false
 GITHUB_REPO="niraiarin/agent-workflow"
 
 # ---------- Helpers ----------
 
 usage() {
   cat <<'USAGE'
-Usage: install.sh --platform <name> [--version <tag>] [--prefix <path>]
+Usage: install.sh --platform <name> [--version <tag>] [--prefix <path>] [--skills-only]
 
 Options:
   --platform <name>   (required) bob | claude-code | codex-cli | gemini-cli | vibe-local
   --version <tag>     GitHub Release tag (default: latest). Ignored in local mode.
   --prefix <path>     Installation target directory (default: .)
+  --skills-only       Only install skills directory, skip root config file (CLAUDE.md etc.)
+                      Use this when updating skills without overwriting project-specific config.
 
 Modes:
   Local mode:   When build/ directory exists (e.g. inside a submodule), files are copied from it.
@@ -117,11 +120,12 @@ build_skills_subdir() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --platform)  PLATFORM="$2"; shift 2 ;;
-    --version)   VERSION="$2"; shift 2 ;;
-    --prefix)    PREFIX="$2"; shift 2 ;;
-    -h|--help)   usage ;;
-    *)           die "Unknown option: $1" ;;
+    --platform)    PLATFORM="$2"; shift 2 ;;
+    --version)     VERSION="$2"; shift 2 ;;
+    --prefix)      PREFIX="$2"; shift 2 ;;
+    --skills-only) SKILLS_ONLY=true; shift ;;
+    -h|--help)     usage ;;
+    *)             die "Unknown option: $1" ;;
   esac
 done
 
@@ -208,8 +212,10 @@ if [[ -d "$BUILD_SRC/$BUILD_SKILLS" ]]; then
   fi
 fi
 
-# 2. Root config file
-if [[ -n "$ROOT_CONFIG" && -f "$BUILD_SRC/$BUILD_ROOT_CFG" ]]; then
+# 2. Root config file (skipped with --skills-only)
+if [[ "$SKILLS_ONLY" == true ]]; then
+  echo "  Skipped $ROOT_CONFIG (--skills-only)."
+elif [[ -n "$ROOT_CONFIG" && -f "$BUILD_SRC/$BUILD_ROOT_CFG" ]]; then
   TARGET_CFG="$PREFIX/$ROOT_CONFIG"
   if [[ -f "$TARGET_CFG" ]]; then
     choice="$(prompt_conflict "$TARGET_CFG" "  [a]ppend")"
