@@ -5,8 +5,11 @@
 ## 前提条件（必須）
 
 1. `.agents/tasks/<issue>/<task>.md` 存在確認 → なければ STOP
-2. `git branch --show-current` がタスクのブランチと一致 → 不一致なら STOP
-3. 完了ゲートが全て `[x]` → STOP「既に完了」
+2. worktree 内で作業していることを確認:
+   `git rev-parse --show-toplevel` の結果がメインリポジトリのルートと異なること
+   → メインリポジトリ直下の場合 STOP「worktree 内で作業してください。`vibe --worktree <name>` で起動するか、`git worktree add` で作成してください」
+3. `git branch --show-current` がタスクのブランチと一致 → 不一致なら STOP
+4. 完了ゲートが全て `[x]` → STOP「既に完了」
 
 ## プロセス
 

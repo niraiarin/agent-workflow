@@ -5,7 +5,10 @@
 ## 前提条件（必須）
 
 1. `.agents/tasks/<issue>/gates.md` 存在確認 → なければ STOP「先に `/wf-01-define-gates <issue>` を実行」
-2. Test-based Gateがある場合: `.agents/tasks/<issue>/test-cases.md` 存在確認 → なければ STOP「先に `/wf-15-define-test-cases <issue>` を実行」
+2. Test-based Gateがある場合: `.agents/tasks/<issue>/test-cases.md` 存在確認
+   → なければ WARNING「test-cases.md が未定義です。`/wf-15-define-test-cases <issue>` で事前定義を推奨」
+   → 人間が続行を選択した場合: 理由をタスクファイルの Implementation Notes に記録して続行
+   → 人間が STOP を選択した場合: STOP「先に `/wf-15-define-test-cases <issue>` を実行」
 3. `git branch --show-current` → main/masterなら STOP「featureブランチを作成」
 4. 未完了タスクがある → STOP「先に `/wf-03-implement <issue> task-N` を完了」
 
