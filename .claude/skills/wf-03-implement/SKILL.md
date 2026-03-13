@@ -13,6 +13,11 @@ description: 03 Implement - Execute a specific task following the plan
 
 Before doing anything else:
 
+**Gates File Check:**
+1. Verify gates file exists: `.agents/tasks/<issue-identifier>/gates.md`
+2. If missing: STOP "Gates not defined. Run `/wf-01-define-gates` first."
+3. This ensures all implementation has verifiable completion criteria
+
 **Task File Check:**
 1. Verify task file exists: `.agents/tasks/<issue-identifier>/<task-identifier>.md`
 2. If missing: STOP and suggest running `/wf-02-task-plan` first
